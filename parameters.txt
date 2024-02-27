@@ -1,8 +1,8 @@
-{"Email": "test35@unimon.ru",
-"Pass": "12345",
+{"Email": "///",
+"Pass": "///",
 "Group": "1h",
 "Filter": "all_temp",
-"DevID": "7514",
+"DevID": "///",
 "Types": "temp",
 "T1": "2024-02-15 00:00:00",
 "T2": "2024-02-27 00:00:00"}
