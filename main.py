@@ -79,7 +79,7 @@ def main():
 
     elif (login_response.status_code == 403):
         f_l.write(str(login_response.status_code))
-        f_l.write(" - неправильные данные для аунтификации\n")
+        f_l.write(" - неправильные данные для аунтификации или превышено количество попыток входа\n")
 
     else:
         f_l.write(str(login_response.status_code))
