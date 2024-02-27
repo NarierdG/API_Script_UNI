@@ -78,35 +78,35 @@ def main():
             print("4. Отчет загружен")
             time.sleep(2)
 
-        elif (login_response.status_code == 400):
-            f_l.write(str(login_response.status_code))
-            f_l.write(" - проверьте правльноть внесенных данных\n")
-            print("Error: данные внесены не верно")
+        elif (export_response.status_code == 400):
+            f_l.write(str(export_response.status_code))
+            f_l.write(" - проверьте правильность внесенных данных!\n")
+            print("Error: данные внесены не верно!")
             time.sleep(5)
 
         else:
-            f_l.write(str(login_response.status_code))
+            f_l.write(str(export_response.status_code))
             f_l.write(
                 " - код ошибки входа, подробнее - https://ru.wikipedia.org/wiki/Список_кодов_состояния_HTTP#401\n")
-            print("Error: инспектирование в log.txt")
+            print("Error: инспектирование в log.txt!")
             time.sleep(5)
 
     elif (login_response.status_code == 400):
         f_l.write(str(login_response.status_code))
-        f_l.write(" - проверьте правльноть внесенных данных\n")
-        print("Error: данные внесены не верно")
+        f_l.write(" - проверьте правильность внесенных данных!\n")
+        print("Error: данные внесены не верно!")
         time.sleep(5)
 
     elif (login_response.status_code == 403):
         f_l.write(str(login_response.status_code))
-        f_l.write(" - неправильные данные для аунтификации или превышено количество попыток входа\n")
-        print("Error: данные внесены не верно или превышено количество попыток входа")
+        f_l.write(" - неправильные данные для аунтификации или превышено количество попыток входа!\n")
+        print("Error: данные внесены не верно или превышено количество попыток входа!")
         time.sleep(5)
 
     else:
         f_l.write(str(login_response.status_code))
         f_l.write(" - код ошибки входа, подробнее - https://ru.wikipedia.org/wiki/Список_кодов_состояния_HTTP#401\n")
-        print("Error: инспектирование в log.txt")
+        print("Error: инспектирование в log.txt!")
         time.sleep(5)
 
 if __name__ == "__main__":
