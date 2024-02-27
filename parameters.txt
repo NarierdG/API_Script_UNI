@@ -1,5 +1,5 @@
 {"Email": "test35@unimon.ru",
-"Pass": "1235",
+"Pass": "12435",
 "Group": "1h",
 "Filter": "all_temp",
 "DevID": "7310",
