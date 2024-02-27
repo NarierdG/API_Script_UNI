@@ -4,6 +4,11 @@ import time
 import json
 
 def main():
+
+    # Визуальный вывод для CMD
+    print("1. Данные для входа направлены")
+    time.sleep(1)
+
     # Отправляем запрос на авторизацию
     login_url = "https://api.unimon.ru/v1/user/login"
     login_data = {
@@ -16,6 +21,9 @@ def main():
     login_response = requests.post(login_url, json=login_data, headers=login_headers)
 
     if (login_response.status_code == 200):
+
+        print("2. Авторизация прошла успешно")
+        time.sleep(1)
 
         # Запись log авторизации в файл
         f_l.write(str(login_response.status_code))
@@ -52,6 +60,9 @@ def main():
 
         if (export_response.status_code == 200):  # Проверяем статус ответа
 
+            print("3. Запрос на получение отчета обработан")
+            time.sleep(1)
+
             # Запись получения ссылки отчета и обработки Get запроса
             f_l.write(str(export_response.status_code))
             f_l.write(" - код получения ссылки\n")
@@ -64,26 +75,33 @@ def main():
             with open('Report.pdf', 'wb') as f:
                 f.write(r.content)
 
+            print("4. Отчет загружен")
+
         elif (login_response.status_code == 400):
             f_l.write(str(login_response.status_code))
             f_l.write(" - проверьте правльноть внесенных данных\n")
+            print("Error: данные внесены не верно")
 
         else:
             f_l.write(str(login_response.status_code))
             f_l.write(
                 " - код ошибки входа, подробнее - https://ru.wikipedia.org/wiki/Список_кодов_состояния_HTTP#401\n")
+            print("Error: инспектирование в log.txt")
 
     elif (login_response.status_code == 400):
         f_l.write(str(login_response.status_code))
         f_l.write(" - проверьте правльноть внесенных данных\n")
+        print("Error: данные внесены не верно")
 
     elif (login_response.status_code == 403):
         f_l.write(str(login_response.status_code))
         f_l.write(" - неправильные данные для аунтификации или превышено количество попыток входа\n")
+        print("Error: данные внесены не верно или превышено количество попыток входа")
 
     else:
         f_l.write(str(login_response.status_code))
         f_l.write(" - код ошибки входа, подробнее - https://ru.wikipedia.org/wiki/Список_кодов_состояния_HTTP#401\n")
+        print("Error: инспектирование в log.txt")
 
 if __name__ == "__main__":
     f_l = open("log.txt", "w")
