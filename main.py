@@ -76,32 +76,38 @@ def main():
                 f.write(r.content)
 
             print("4. Отчет загружен")
+            time.sleep(4)
 
         elif (login_response.status_code == 400):
             f_l.write(str(login_response.status_code))
             f_l.write(" - проверьте правльноть внесенных данных\n")
             print("Error: данные внесены не верно")
+            time.sleep(10)
 
         else:
             f_l.write(str(login_response.status_code))
             f_l.write(
                 " - код ошибки входа, подробнее - https://ru.wikipedia.org/wiki/Список_кодов_состояния_HTTP#401\n")
             print("Error: инспектирование в log.txt")
+            time.sleep(10)
 
     elif (login_response.status_code == 400):
         f_l.write(str(login_response.status_code))
         f_l.write(" - проверьте правльноть внесенных данных\n")
         print("Error: данные внесены не верно")
+        time.sleep(10)
 
     elif (login_response.status_code == 403):
         f_l.write(str(login_response.status_code))
         f_l.write(" - неправильные данные для аунтификации или превышено количество попыток входа\n")
         print("Error: данные внесены не верно или превышено количество попыток входа")
+        time.sleep(10)
 
     else:
         f_l.write(str(login_response.status_code))
         f_l.write(" - код ошибки входа, подробнее - https://ru.wikipedia.org/wiki/Список_кодов_состояния_HTTP#401\n")
         print("Error: инспектирование в log.txt")
+        time.sleep(10)
 
 if __name__ == "__main__":
     f_l = open("log.txt", "w")

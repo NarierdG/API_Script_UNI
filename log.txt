@@ -1,4 +1,0 @@
-200 - код авторизации
-{"UserID":"11438","ClientCode":"vkJpWolpyjZLAJLsmE5t","Token":"3f543532e82b3381cbf09ddc644b64ce"} - токен авторизации
-200 - код получения ссылки
-https://s3.unimon.ru/gen-reports/11438/1709003702/CEg7k/route_report.pdf?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=332678769a810f98b4b176c1%2F20240227%2Fru-1a%2Fs3%2Faws4_request&X-Amz-Date=20240227T031504Z&X-Amz-SignedHeaders=host&X-Amz-Expires=1800&X-Amz-Signature=eb2c0ca2fce232c5976401b81b0492a3883d59e52047808fdb0bacb519f8ad1e - прямая ссылка на отчет
