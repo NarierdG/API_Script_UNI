@@ -107,7 +107,7 @@ def main():
         f_l.write(str(login_response.status_code))
         f_l.write(" - код ошибки входа, подробнее - https://ru.wikipedia.org/wiki/Список_кодов_состояния_HTTP#401\n")
         print("Error: инспектирование в log.txt")
-        time.sleep(10)
+        time.sleep(5)
 
 if __name__ == "__main__":
     f_l = open("log.txt", "w")
