@@ -62,7 +62,7 @@ def clicked():
                         res = {
                             "Kind": kind,
                             "Format": form,
-                            "TimeZone": "user",
+                            "TimeZone": "device",
                             "Severity": typ,
                             "DevID": txt_devset.get(),
                             "T1": tim,
@@ -72,7 +72,7 @@ def clicked():
                         res = {
                             "Kind": kind,
                             "Format": form,
-                            "TimeZone": "user",
+                            "TimeZone": "device",
                             "Comments": "no",
                             "Severity": typ,
                             "DevID": txt_devset.get(),
@@ -83,7 +83,7 @@ def clicked():
                         res = {
                             "Kind": kind,
                             "Format": form,
-                            "TimeZone": "user",
+                            "TimeZone": "device",
                             "Group": "no",
                             "Ease": "no",
                             "Hours": grou,
@@ -97,7 +97,7 @@ def clicked():
                         res = {
                             "Kind": kind,
                             "Format": form,
-                            "TimeZone": "user",
+                            "TimeZone": "device",
                             "Group": grou,
                             "Ease": "no",
                             "Filter": "custom_types",
@@ -111,7 +111,7 @@ def clicked():
                         res = {
                             "Kind": kind,
                             "Format": form,
-                            "TimeZone": "user",
+                            "TimeZone": "device",
                             "Group": "no",
                             "Ease": "no",
                             "Hours": grou,
@@ -123,7 +123,7 @@ def clicked():
                         res = {
                             "Kind": kind,
                             "Format": form,
-                            "TimeZone": "user",
+                            "TimeZone": "device",
                             "Group": grou,
                             "Ease": "no",
                             "SetID": txt_email.get(),

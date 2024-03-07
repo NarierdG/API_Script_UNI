@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 import requests
 import base64
 import time
@@ -60,7 +61,7 @@ def main():
             f_l.write(" - прямая ссылка на отчет\n")
 
             r = requests.get(export_response.json()['url'])
-            with open('Report.pdf', 'wb') as f:
+            with open(f'Report.{f_s["Format"]}', 'wb') as f:
                 f.write(r.content)
 
             print("4. Отчет загружен")
@@ -109,13 +110,32 @@ if __name__ == "__main__":
         f = f.read()
     f_s = json.loads(f)
 
-        # Преобразование времени в Unix
-    t1_unix = int(time.mktime(time.strptime('2024-01-01 12:34:00', '%Y-%m-%d %H:%M:%S')))
-    t2_unix = int(time.mktime(time.strptime('2024-03-01 12:34:00', '%Y-%m-%d %H:%M:%S')))
-    t1_unix = str(t1_unix) + "000"
-    t2_unix = str(t2_unix) + "000"
+    # Преобразование времени в Unix
+    current_date = datetime.now()
 
-    f_s['T1'] = t1_unix
-    f_s['T2'] = t2_unix
+    if (f_s["T1"] == "1d"):
+        f_s["T1"] = int(current_date.timestamp() - 86400)
+        f_s["T2"] = int(current_date.timestamp())
+    elif (f_s["T1"] == "7d"):
+        f_s["T1"] = int(current_date.timestamp() - 604800)
+        f_s["T2"] = int(current_date.timestamp())
+    elif (f_s["T1"] == "31d"):
+        f_s["T1"] = int(current_date.timestamp() - 2629743)
+        f_s["T2"] = int(current_date.timestamp())
+    elif f_s["T1"] == "month":
+        start_of_month = current_date.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        end_of_month = (start_of_month.replace(month=(start_of_month.month % 12 + 1)) - timedelta(days=1)).replace(hour=23, minute=59, second=59, microsecond=999999)
+        f_s["T1"] = int(start_of_month.timestamp())
+        f_s["T2"] = int(end_of_month.timestamp())
+    elif f_s["T1"] == "week":
+        start_of_week = (current_date - timedelta(days=current_date.weekday())).replace(hour=0, minute=0, second=0, microsecond=0)
+        end_of_week = start_of_week + timedelta(days=7)
+        f_s["T1"] = int(start_of_week.timestamp())
+        f_s["T2"] = int(end_of_week.timestamp())
+    elif f_s["T1"] == "day":
+        start_of_day = current_date.replace(hour=0, minute=0, second=0, microsecond=0)
+        end_of_day = current_date.replace(hour=23, minute=59, second=59, microsecond=999999)
+        f_s["T1"] = int(start_of_day.timestamp())
+        f_s["T2"] = int(end_of_day.timestamp())
 
     main()
