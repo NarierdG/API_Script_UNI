@@ -37,18 +37,6 @@ def main():
 
         # Формируем запрос на получение файла с использованием токена авторизации
         export_url = "https://api.unimon.ru/v1/export/main/tofile"
-        export_params = {
-            "Kind": "main",
-            "Format": "pdf",
-            "TimeZone": "user",
-            "Group": f_o["Group"],
-            "Ease": "no",
-            "Filter": f_o["Filter"],
-            "DevID": f_o["DevID"],
-            "Types": f_o["Types"],
-            'T1': t1_unix,
-            'T2': t2_unix
-        }
 
         export_headers = {
             "Authorization": base64.b64encode(login_token.encode()).decode(),
@@ -56,7 +44,7 @@ def main():
             "Origin": "https://my.unimon.ru"
         }
 
-        export_response = requests.get(export_url, params=export_params, headers=export_headers)
+        export_response = requests.get(export_url, params=f_s, headers=export_headers)
 
         if (export_response.status_code == 200):  # Проверяем статус ответа
 
@@ -113,13 +101,21 @@ if __name__ == "__main__":
     f_l = open("log.txt", "w")
 
     # Занесение параметров из paramerts.txt
-    with open('parameters.txt') as f:
+    with open('authorization.pkl') as f:
         f = f.read()
     f_o = json.loads(f)
 
+    with open('settings.pkl') as f:
+        f = f.read()
+    f_s = json.loads(f)
+
         # Преобразование времени в Unix
-    t1_unix = int(time.mktime(time.strptime(f_o['T1'], '%Y-%m-%d %H:%M:%S')))
-    t2_unix = int(time.mktime(time.strptime(f_o['T2'], '%Y-%m-%d %H:%M:%S')))
+    t1_unix = int(time.mktime(time.strptime('2024-01-01 12:34:00', '%Y-%m-%d %H:%M:%S')))
+    t2_unix = int(time.mktime(time.strptime('2024-03-01 12:34:00', '%Y-%m-%d %H:%M:%S')))
     t1_unix = str(t1_unix) + "000"
     t2_unix = str(t2_unix) + "000"
+
+    f_s['T1'] = t1_unix
+    f_s['T2'] = t2_unix
+
     main()
