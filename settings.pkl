@@ -1,1 +1,1 @@
-{"Kind": "main", "Format": "pdf", "TimeZone": "user", "Group": "1h", "Ease": "no", "Filter": "custom_types", "DevID": "7514", "Types": "temp", "T1": "1d", "T2": ""}
+
