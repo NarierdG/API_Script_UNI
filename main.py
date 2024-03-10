@@ -113,16 +113,7 @@ if __name__ == "__main__":
     # Преобразование времени в Unix
     current_date = datetime.now()
 
-    if (f_s["T1"] == "1d"):
-        f_s["T1"] = int(current_date.timestamp() - 86400)
-        f_s["T2"] = int(current_date.timestamp())
-    elif (f_s["T1"] == "7d"):
-        f_s["T1"] = int(current_date.timestamp() - 604800)
-        f_s["T2"] = int(current_date.timestamp())
-    elif (f_s["T1"] == "31d"):
-        f_s["T1"] = int(current_date.timestamp() - 2629743)
-        f_s["T2"] = int(current_date.timestamp())
-    elif f_s["T1"] == "month":
+    if f_s["T1"] == "month":
         start_of_month = current_date.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
         end_of_month = (start_of_month.replace(month=(start_of_month.month % 12 + 1)) - timedelta(days=1)).replace(hour=23, minute=59, second=59, microsecond=999999)
         f_s["T1"] = int(start_of_month.timestamp())
