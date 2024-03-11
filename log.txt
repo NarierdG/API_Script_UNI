@@ -1,2 +1,3 @@
 200 - код авторизации
-400 - проверьте правильность внесенных данных!
+200 - код получения ссылки
+https://s3.unimon.ru/gen-reports/11438/1710192055/RQSiN/route_report.pdf?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=332678769a810f98b4b176c1%2F20240311%2Fru-1a%2Fs3%2Faws4_request&X-Amz-Date=20240311T212056Z&X-Amz-SignedHeaders=host&X-Amz-Expires=1800&X-Amz-Signature=062a2c18bbf7d89ac8a341ad2ae6dfa5dbeba40480471b4d73eb69abd2b3f4b5 - прямая ссылка на отчет
