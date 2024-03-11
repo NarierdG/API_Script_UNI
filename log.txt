@@ -1,4 +1,2 @@
 200 - код авторизации
-{"UserID":"11438","ClientCode":"dtnywqABKYLfkLorFQlB","Token":"b8560b7a5244797f7c1e2719234aefb8"} - токен авторизации
-200 - код получения ссылки
-https://s3.unimon.ru/gen-reports/11438/1709808221/JwSGx/route_report.html?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=332678769a810f98b4b176c1%2F20240307%2Fru-1a%2Fs3%2Faws4_request&X-Amz-Date=20240307T104341Z&X-Amz-SignedHeaders=host&X-Amz-Expires=1800&X-Amz-Signature=67aac9c803e825769ba0d2ecdc56f947f80587875db4a79a2acf7996173b54d0 - прямая ссылка на отчет
+400 - проверьте правильность внесенных данных!

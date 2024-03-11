@@ -3,6 +3,7 @@ import requests
 import base64
 import time
 import json
+import os
 
 def main():
 
@@ -12,6 +13,11 @@ def main():
 
     # Отправляем запрос на авторизацию
     login_url = "https://api.unimon.ru/v1/user/login"
+
+    if (f_o["Wsl"] != 0):
+        wsl = os.path.normpath(f_o["Wsl"])
+        login_url = wsl + "user/login"
+
     login_data = {
         "Email": f_o["Email"],
         "Pass": f_o["Pass"],
@@ -32,12 +38,11 @@ def main():
 
         login_token = login_response.text.strip()  # Получаем токен из ответа
 
-        # Запись полученного токена в log
-        f_l.write(str(login_token))
-        f_l.write(" - токен авторизации\n")
-
         # Формируем запрос на получение файла с использованием токена авторизации
         export_url = "https://api.unimon.ru/v1/export/main/tofile"
+
+        if (f_o["Wsl"] != 0):
+            export_url = wsl + "export/main/tofile"
 
         export_headers = {
             "Authorization": base64.b64encode(login_token.encode()).decode(),
@@ -60,8 +65,13 @@ def main():
             f_l.write(export_response.json()['url'])
             f_l.write(" - прямая ссылка на отчет\n")
 
+            if (f_s["Format"] == "th1"):
+                f_s["Format"] = "pdf"
+
             r = requests.get(export_response.json()['url'])
-            with open(f'Report.{f_s["Format"]}', 'wb') as f:
+            way = os.path.normpath(f_o["Way"])
+            file_path = way + '/Отчет ' + str(datetime.now().date()) + '.' + f_s["Format"]
+            with open(file_path, 'wb') as f:
                 f.write(r.content)
 
             print("4. Отчет загружен")
@@ -114,19 +124,16 @@ if __name__ == "__main__":
     current_date = datetime.now()
 
     if f_s["T1"] == "month":
-        start_of_month = current_date.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-        end_of_month = (start_of_month.replace(month=(start_of_month.month % 12 + 1)) - timedelta(days=1)).replace(hour=23, minute=59, second=59, microsecond=999999)
-        f_s["T1"] = int(start_of_month.timestamp())
-        f_s["T2"] = int(end_of_month.timestamp())
+        f_s["T1"] = (current_date.replace(day=1, hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)).replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        f_s["T2"] = current_date.replace(day=1, hour=0, minute=0, second=0, microsecond=0) - timedelta(seconds=1)
     elif f_s["T1"] == "week":
-        start_of_week = (current_date - timedelta(days=current_date.weekday())).replace(hour=0, minute=0, second=0, microsecond=0)
-        end_of_week = start_of_week + timedelta(days=7)
-        f_s["T1"] = int(start_of_week.timestamp())
-        f_s["T2"] = int(end_of_week.timestamp())
+        f_s["T1"] = (current_date - timedelta(days=current_date.weekday() + 7)).replace(hour=0, minute=0, second=0,microsecond=0)
+        f_s["T2"] = (f_s["T1"] + timedelta(days=7)).replace(hour=23, minute=59, second=59, microsecond=0) - timedelta(days=1)
     elif f_s["T1"] == "day":
-        start_of_day = current_date.replace(hour=0, minute=0, second=0, microsecond=0)
-        end_of_day = current_date.replace(hour=23, minute=59, second=59, microsecond=999999)
-        f_s["T1"] = int(start_of_day.timestamp())
-        f_s["T2"] = int(end_of_day.timestamp())
+        f_s["T1"] = current_date.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=1)
+        f_s["T2"] = current_date.replace(hour=23, minute=59, second=59, microsecond=0) - timedelta(days=1)
+
+    f_s["T1"] = int((f_s["T1"] - datetime(1970, 1, 1)).total_seconds()) * 1000
+    f_s["T2"] = int((f_s["T2"] - datetime(1970, 1, 1)).total_seconds()) * 1000
 
     main()
