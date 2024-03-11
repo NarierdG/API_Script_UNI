@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter.ttk import Combobox
 from tkinter import messagebox
 import json
+import os
 
 def translating_values_format():
     if (combo.get() == "Основной PDF" or combo.get() == "Показатели PDF" or combo.get() == "Тревоги PDF"): form = "pdf"
@@ -257,6 +258,8 @@ lbl_way = Label(window, text='*Путь для скаченного файла: 
 lbl_way.grid(column=0, row=11, sticky="w")
 txt_way = Entry(window,width=40)
 txt_way.grid(column=1, row=11)
+way = os.path.normpath(logpass["Way"])
+txt_way.insert(0, logpass["Way"])
 lbl_btn1 = Label(window, text="")
 lbl_btn1.grid(column=0, row=13)
 btn = Button(window, text="Сохранить!", command=clicked)
