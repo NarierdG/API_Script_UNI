@@ -153,7 +153,9 @@ def on_combobox_change(event):
     if (combo_WSlocal.get() == "Локальный"):
         lbl_WSlocal.grid(column=0, row=4, sticky = "w")
         txt_WSlocal.grid(column=1, row=4)
-        combo_WSlocal['state'] = 'disabled'
+    elif (combo_WSlocal.get() == "Облачный"):
+        lbl_WSlocal.grid_remove()
+        txt_WSlocal.grid_remove()
 
     if (selected_item_devset == "DevID"):
         combo['values'] = (
@@ -161,15 +163,14 @@ def on_combobox_change(event):
         "Тревоги CSV", "Тревоги HTML", "Тревоги PDF")
         lbl_combo_filter.grid(column=0, row=7, sticky='w')
         combo_filter.grid(column=1, row=7)
-        combo_devset['state'] = 'disabled'
 
     elif (selected_item_devset == "SetID"):
         combo['values'] = (
         "Основной PDF", "Основной HTML", "Показатели CSV", "Показатели HTML", "Показатели PDF", "Журнал ТиВ PDF")
-        combo_devset['state'] = 'disabled'
+        lbl_combo_filter.grid_remove()
+        combo_filter.grid_remove()
 
     if ((selected_item == 'Основной PDF') or (selected_item == 'Основной HTML')):
-        combo['state'] = 'disabled'
         combo_filter['values'] = ("Только температура", "Температура и влажность", "Только влажность")
         lbl_combo_dop = Label(window, text="Выберите усреднение:")
         lbl_combo_dop.grid(column=0, row=8, sticky='w')
@@ -177,16 +178,14 @@ def on_combobox_change(event):
         combo_dop['values'] = ("Без усреднения", "5 минут", "1 час", "3 часа", "1 день")
     elif ((selected_item == 'Показатели CSV') or (selected_item == 'Показатели PDF') or (
         selected_item == 'Показатели HTML')):
-        combo['state'] = 'disabled'
         combo_filter['values'] = ("Температура и влажность", "Только температура", "Только влажность")
         lbl_combo_dop = Label(window, text="Выберите усреднение:")
         lbl_combo_dop.grid(column=0, row=8, sticky='w')
         combo_dop.grid(column=1, row=8)
         combo_dop['values'] = ("Без усреднения", "5 минут", "1 час", "3 часа", "1 день")
     elif ((selected_item == 'Журнал ТиВ PDF')):
-        combo['state'] = 'disabled'
         combo_filter['values'] = ("Только температура", "Температура и влажность")
-        lbl_combo_dop = Label(window, text="Выбор времени:")
+        lbl_combo_dop = Label(window, text="Выбор времени:             ")
         lbl_combo_dop.grid(column=0, row=8, sticky='w')
         combo_dop.grid(column=1, row=8)
         combo_dop['values'] = ("0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00",
@@ -194,28 +193,30 @@ def on_combobox_change(event):
                                "19:00", "20:00", "21:00", "22:00", "23:00")
     elif ((selected_item == 'Тревоги CSV') or (selected_item == 'Тревоги HTML') or (
             selected_item == 'Тревоги PDF')):
-        combo['state'] = 'disabled'
         combo_filter['values'] = ("Критические тревоги", "Все тревоги", "Тревоги и служебные")
 
 
 window = Tk() # Открываем окно
 window.geometry('500x300') # Размер окна
 window.resizable(width=FALSE, height=FALSE) # Блокировка размера окна
-with open('authorization.pkl', 'r') as f:
-    logpass = json.load(f)
-with open('settings.pkl', 'r') as f:
-    res = json.load(f)
+log = 1
+try:
+    with open('authorization.pkl', 'r') as f:
+        logpass = json.load(f)
+    with open('settings.pkl', 'r') as f:
+        res = json.load(f)
+except: log = 0
 window.title("Настройка отчета Unimon!")
 lbl_email = Label(window, text="Введите E-mail:")
 lbl_email.grid(column=0, row=0, sticky='w')
 txt_email = Entry(window,width=40)
 txt_email.grid(column=1, row=0)
-txt_email.insert(0, logpass["Email"])
+if (log != 0): txt_email.insert(0, logpass["Email"])
 lbl_pass = Label(window, text="Введите Пароль:")
 lbl_pass.grid(column=0, row=2, sticky='w')
 txt_pass = Entry(window,width=40)
 txt_pass.grid(column=1, row=2)
-txt_pass.insert(0, logpass["Pass"])
+if (log != 0): txt_pass.insert(0, logpass["Pass"])
 lbl_combo_WSlocal = Label(window, text="Выберите сервер:")
 lbl_combo_WSlocal.grid(column=0, row=3, sticky='w')
 combo_WSlocal = Combobox(window, width=37)
@@ -236,7 +237,7 @@ lbl_devset = Label(window, text=" = ")
 lbl_devset.grid(column=2, row=5)
 txt_devset = Entry(window,width=6)
 txt_devset.grid(column=3, row=5)
-txt_devset.insert(0, (res["DevID"] or res["SetID"]))
+if (log != 0): txt_devset.insert(0, (res["DevID"] or res["SetID"]))
 lbl_combo = Label(window, text="Выберите формат:")
 lbl_combo.grid(column=0, row=6, sticky='w')
 combo = Combobox(window, width=37)
@@ -246,6 +247,7 @@ combo.bind("<<ComboboxSelected>>", on_combobox_change)
 lbl_combo_filter = Label(window, text="Выберите тип отчета:")
 combo_filter = Combobox(window, width=37)
 combo_filter['state'] = 'readonly'
+lbl_combo_dop = Label(window, text="Выберите усреднение:")
 combo_dop = Combobox(window, width=37)
 combo_dop['state'] = 'readonly'
 lbl_combo_time = Label(window, text="Выберите период:")
@@ -258,8 +260,9 @@ lbl_way = Label(window, text='*Путь для скаченного файла: 
 lbl_way.grid(column=0, row=11, sticky="w")
 txt_way = Entry(window,width=40)
 txt_way.grid(column=1, row=11)
-way = os.path.normpath(logpass["Way"])
-txt_way.insert(0, logpass["Way"])
+if (log != 0):
+    way = os.path.normpath(logpass["Way"])
+    txt_way.insert(0, logpass["Way"])
 lbl_btn1 = Label(window, text="")
 lbl_btn1.grid(column=0, row=13)
 btn = Button(window, text="Сохранить!", command=clicked)

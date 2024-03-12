@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.12 (API_Script_UNI)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (API_Script_UNI)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10 (Sthe script for unimon)" project-jdk-type="Python SDK" />
 </project>
