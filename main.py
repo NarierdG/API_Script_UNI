@@ -4,6 +4,7 @@ import base64
 import time
 import json
 import os
+import sys
 
 def main():
 
@@ -68,57 +69,69 @@ def main():
             if (f_s["Format"] == "th1"):
                 f_s["Format"] = "pdf"
 
-            r = requests.get(export_response.json()['url'])
-            way = os.path.normpath(f_o["Way"])
-            file_path = way + '/Отчет ' + str(datetime.now().date()) + '.' + f_s["Format"]
-            with open(file_path, 'wb') as f:
-                f.write(r.content)
+            if (f_o["Way"] != 0):
+                r = requests.get(export_response.json()['url'])
+                way = os.path.normpath(f_o["Way"])
+                file_path = way + '/Отчет ' + str(datetime.now().date()) + '.' + f_s["Format"]
+                with open(file_path, 'wb') as f:
+                    f.write(r.content)
+            else:
+                r = requests.get(export_response.json()['url'])
+                file_path ='Отчет ' + str(datetime.now().date()) + '.' + f_s["Format"]
+                with open(file_path, 'wb') as f:
+                    f.write(r.content)
 
             print("4. Отчет загружен")
-            time.sleep(2)
+            time.sleep(1)
 
         elif (export_response.status_code == 400):
             f_l.write(str(export_response.status_code))
             f_l.write(" - проверьте правильность внесенных данных!\n")
             print("Error: данные внесены не верно!")
-            time.sleep(5)
+            time.sleep(3)
 
         else:
             f_l.write(str(export_response.status_code))
             f_l.write(
                 " - код ошибки входа, подробнее - https://ru.wikipedia.org/wiki/Список_кодов_состояния_HTTP#401\n")
             print("Error: инспектирование в log.txt!")
-            time.sleep(5)
+            time.sleep(3)
 
     elif (login_response.status_code == 400):
         f_l.write(str(login_response.status_code))
         f_l.write(" - проверьте правильность внесенных данных!\n")
         print("Error: данные внесены не верно!")
-        time.sleep(5)
+        time.sleep(3)
 
     elif (login_response.status_code == 403):
         f_l.write(str(login_response.status_code))
         f_l.write(" - неправильные данные для аунтификации или превышено количество попыток входа!\n")
         print("Error: данные внесены не верно или превышено количество попыток входа!")
-        time.sleep(5)
+        time.sleep(3)
 
     else:
         f_l.write(str(login_response.status_code))
         f_l.write(" - код ошибки входа, подробнее - https://ru.wikipedia.org/wiki/Список_кодов_состояния_HTTP#401\n")
         print("Error: инспектирование в log.txt!")
-        time.sleep(5)
+        time.sleep(3)
 
 if __name__ == "__main__":
     f_l = open("log.txt", "w")
 
     # Занесение параметров из paramerts.txt
-    with open('authorization.pkl') as f:
-        f = f.read()
-    f_o = json.loads(f)
+    try:
+        with open('authorization.pkl') as f:
+            f = f.read()
+        f_o = json.loads(f)
 
-    with open('settings.pkl') as f:
-        f = f.read()
-    f_s = json.loads(f)
+        with open('settings.pkl') as f:
+            f = f.read()
+        f_s = json.loads(f)
+    except:
+        print("Error: данные аунтифекации не заполнены!")
+        f_l.write("Перед началом работы необходимо зайти в \"Параметры отчета\"!\n")
+        time.sleep(3)
+        sys.exit()
 
     # Преобразование времени в Unix
     current_date = datetime.now()

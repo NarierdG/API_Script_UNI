@@ -28,7 +28,7 @@ def translating_values_group():
 
 def translating_values_types():
     if (combo_filter.get() == "Только температура"): typ = "temp"
-    elif (combo_filter.get() == "Температура и влажность"): typ = "tempСhum"
+    elif (combo_filter.get() == "Температура и влажность"): typ = "temp,hum"
     elif (combo_filter.get() == "Только влажность"): typ = "hum"
     elif (combo_filter.get() == "Критические тревоги"): typ = "10"
     elif (combo_filter.get() == "Все тревоги"): typ = "20"
@@ -49,7 +49,7 @@ def clicked():
                 form = translating_values_format()
                 kind = translating_values_kind()
                 grou = translating_values_group()
-                typ = translating_values_types()
+                if (combo_devset.get() == "DevID"): typ = translating_values_types()
                 tim = translating_values_time()
                 way = 0
                 wsl = 0
@@ -121,7 +121,7 @@ def clicked():
                             "Group": "no",
                             "Ease": "no",
                             "Hours": grou,
-                            "SetID": txt_email.get(),
+                            "SetID": txt_devset.get(),
                             "T1": tim,
                             "T2": ""
                         }
@@ -132,7 +132,7 @@ def clicked():
                             "TimeZone": "device",
                             "Group": grou,
                             "Ease": "no",
-                            "SetID": txt_email.get(),
+                            "SetID": txt_devset.get(),
                             "T1": tim,
                             "T2": ""
                         }
@@ -237,7 +237,10 @@ lbl_devset = Label(window, text=" = ")
 lbl_devset.grid(column=2, row=5)
 txt_devset = Entry(window,width=6)
 txt_devset.grid(column=3, row=5)
-if (log != 0): txt_devset.insert(0, (res["DevID"] or res["SetID"]))
+try:
+    if (log != 0): txt_devset.insert(0, (res["SetID"]))
+except:
+    if (log != 0): txt_devset.insert(0, (res["DevID"]))
 lbl_combo = Label(window, text="Выберите формат:")
 lbl_combo.grid(column=0, row=6, sticky='w')
 combo = Combobox(window, width=37)
@@ -260,7 +263,7 @@ lbl_way = Label(window, text='*Путь для скаченного файла: 
 lbl_way.grid(column=0, row=11, sticky="w")
 txt_way = Entry(window,width=40)
 txt_way.grid(column=1, row=11)
-if (log != 0):
+if (log != 0 and logpass["Way"] != 0):
     way = os.path.normpath(logpass["Way"])
     txt_way.insert(0, logpass["Way"])
 lbl_btn1 = Label(window, text="")
