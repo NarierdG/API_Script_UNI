@@ -69,20 +69,22 @@ def main():
             if (f_s["Format"] == "th1"):
                 f_s["Format"] = "pdf"
 
-            if (f_o["Way"] != 0):
+            if (f_o["Way"] != 0 and os.path.exists(f_o["Way"])):
                 r = requests.get(export_response.json()['url'])
                 way = os.path.normpath(f_o["Way"])
                 file_path = way + '/Отчет ' + str(datetime.now().date()) + '.' + f_s["Format"]
                 with open(file_path, 'wb') as f:
                     f.write(r.content)
+                lbl_write = "4. Отчет загружен"
             else:
                 r = requests.get(export_response.json()['url'])
                 file_path ='Отчет ' + str(datetime.now().date()) + '.' + f_s["Format"]
                 with open(file_path, 'wb') as f:
                     f.write(r.content)
+                lbl_write = "4. Отчет загружен в корневую папку скрипта"
 
-            print("4. Отчет загружен")
-            time.sleep(1)
+            print(lbl_write)
+            time.sleep(2)
 
         elif (export_response.status_code == 400):
             f_l.write(str(export_response.status_code))
