@@ -56,7 +56,7 @@ def clicked():
                 wsl = 0
                 if (txt_way.get() != ""):
                     way = txt_way.get()
-                if (txt_WSlocal.get() != ""):
+                if (txt_WSlocal.get() != "" and combo_WSlocal.get() == "Локальный"):
                     wsl = txt_WSlocal.get()
                 logpass = {
                     "Email": txt_email.get(),
@@ -162,9 +162,15 @@ def on_combobox_change(event):
     if (combo_WSlocal.get() == "Локальный"):
         lbl_WSlocal.grid(column=0, row=4, sticky = "w")
         txt_WSlocal.grid(column=1, row=4)
+        devsetr = 85
+        lbl_devset.place(x=350, y=devsetr)
+        txt_devset.place(x=375, y=devsetr)
     elif (combo_WSlocal.get() == "Облачный"):
         lbl_WSlocal.grid_remove()
         txt_WSlocal.grid_remove()
+        devsetr = 64
+        lbl_devset.place(x=350, y=devsetr)
+        txt_devset.place(x=375, y=devsetr)
 
     if (selected_item_devset == "DevID"):
         combo['values'] = (
@@ -181,7 +187,7 @@ def on_combobox_change(event):
 
     if ((selected_item == 'Основной PDF') or (selected_item == 'Основной HTML')):
         combo_filter['values'] = ("Только температура", "Температура и влажность", "Только влажность")
-        lbl_combo_dop = Label(window, text="Выберите усреднение:")
+        lbl_combo_dop = Label(window, text=" Выберите усреднение:")
         lbl_combo_dop.grid(column=0, row=8, sticky='w')
         combo_dop.grid(column=1, row=8)
         combo_dop['values'] = ("Без усреднения", "5 минут", "1 час", "3 часа", "1 день")
@@ -206,7 +212,7 @@ def on_combobox_change(event):
 
 
 window = Tk() # Открываем окно
-window.geometry('500x300') # Размер окна
+window.geometry('425x330') # Размер окна
 window.resizable(width=FALSE, height=FALSE) # Блокировка размера окна
 log = 1
 try:
@@ -218,55 +224,53 @@ try:
         res_load = json.load(f)
 except: log = 0
 window.title("Настройка отчета Unimon!")
-lbl_email = Label(window, text="Введите E-mail:")
+lbl_email = Label(window, text=" Введите логин (E-mail):")
 lbl_email.grid(column=0, row=0, sticky='w')
 txt_email = Entry(window,width=40)
 txt_email.grid(column=1, row=0)
 if (log != 0): txt_email.insert(0, logpass["Email"])
-lbl_pass = Label(window, text="Введите Пароль:")
+lbl_pass = Label(window, text=" Введите пароль:")
 lbl_pass.grid(column=0, row=2, sticky='w')
 txt_pass = Entry(window,width=40)
 txt_pass.grid(column=1, row=2)
 if (log != 0): txt_pass.insert(0, logpass["Pass"])
-lbl_combo_WSlocal = Label(window, text="Выберите сервер:")
+lbl_combo_WSlocal = Label(window, text=" Выберите сервер:")
 lbl_combo_WSlocal.grid(column=0, row=3, sticky='w')
 combo_WSlocal = Combobox(window, width=37)
 combo_WSlocal.grid(column=1, row=3)
 combo_WSlocal['values'] = ("Облачный", "Локальный")
-lbl_WSlocal = Label(window, text="Введите URL:")
+lbl_WSlocal = Label(window, text=" Введите URL:")
 txt_WSlocal = Entry(window, width=40)
 combo_WSlocal['state'] = 'readonly'
 combo_WSlocal.bind("<<ComboboxSelected>>", on_combobox_change)
-lbl_combo_devset = Label(window, text="Выберите DevID|SetID:")
+lbl_combo_devset = Label(window, text=r" Выберите DevID\SetID:")
 lbl_combo_devset.grid(column=0, row=5, sticky='w')
-combo_devset = Combobox(window, width=37)
-combo_devset.grid(column=1, row=5)
+combo_devset = Combobox(window, width=25)
+combo_devset.grid(column=1, row=5, sticky='w')
 combo_devset['values'] = ("DevID", "SetID")
 combo_devset['state'] = 'readonly'
 combo_devset.bind("<<ComboboxSelected>>", on_combobox_change)
 lbl_devset = Label(window, text=" = ")
-lbl_devset.grid(column=2, row=5)
 txt_devset = Entry(window,width=6)
-txt_devset.grid(column=3, row=5)
-lbl_combo = Label(window, text="Выберите формат:")
+lbl_combo = Label(window, text=" Выберите формат:")
 lbl_combo.grid(column=0, row=6, sticky='w')
 combo = Combobox(window, width=37)
 combo.grid(column=1, row=6)
 combo['state'] = 'readonly'
 combo.bind("<<ComboboxSelected>>", on_combobox_change)
-lbl_combo_filter = Label(window, text="Выберите тип отчета:")
+lbl_combo_filter = Label(window, text=" Выберите тип отчета:")
 combo_filter = Combobox(window, width=37)
 combo_filter['state'] = 'readonly'
-lbl_combo_dop = Label(window, text="Выберите усреднение:")
+lbl_combo_dop = Label(window, text=" Выберите усреднение:")
 combo_dop = Combobox(window, width=37)
 combo_dop['state'] = 'readonly'
-lbl_combo_time = Label(window, text="Выберите период:")
+lbl_combo_time = Label(window, text=" Выберите период:")
 lbl_combo_time.grid(column=0, row=9, sticky='w')
 combo_time = Combobox(window, width=37)
 combo_time['values'] = ("Прошлый месяц", "Прошлая неделя", "Прошлый день")
 combo_time.grid(column=1, row=9)
 combo_time['state'] = 'readonly'
-lbl_way = Label(window, text='*Путь для скаченного файла:  ')
+lbl_way = Label(window, text=' Путь для скаченного файла:  ')
 lbl_way.grid(column=0, row=11, sticky="w")
 txt_way = Entry(window,width=40)
 txt_way.grid(column=1, row=11)
@@ -275,8 +279,7 @@ if (log != 0):
         combo_WSlocal.set("Облачный")
     else:
         combo_WSlocal.set("Локальный")
-        wsl = os.path.normpath(logpass["Wsl"])
-        txt_WSlocal.insert(0, wsl)
+        txt_WSlocal.insert(0, logpass["Wsl"])
 if (log != 0):
     if ("DevID") in res:
         txt_devset.insert(0, (res["DevID"]))
@@ -294,13 +297,13 @@ if (log != 0):
 if (log != 0 and logpass["Way"] != 0):
     way = os.path.normpath(logpass["Way"])
     txt_way.insert(0, way)
-lbl_btn1 = Label(window, text="")
-lbl_btn1.grid(column=0, row=13)
+on_combobox_change("<<ComboboxSelected>>")
+txt = Label(window, text="")
+txt.grid(column=0, row=14, sticky='w')
 btn = Button(window, text="Сохранить!", command=clicked)
-btn.grid(column=1, row=15)
-lbl_way_p = Label(window, text='*Пример - C:\\Users\\****\\Папка для отчета')
-lbl_way_p.place(x = 0, y = 270)
-if (log != 0):
-    lbl_way_d = Label(window, text='*Для догрузки настроек нажмите еще раз на выбранный параметр DevID\\SetID')
-    lbl_way_d.place(x = 0, y = 250)
+btn.grid(column=1, row=15, sticky="e")
+lbl_way_p = Label(window, text='Пример пути - C:\\Users\\Моя папка')
+lbl_way_p.place(x = 0, y = 300)
+lbl_way_d = Label(window, text='Пример URL - https://my-test.ru/')
+lbl_way_d.place(x = 0, y = 280)
 window.mainloop()
