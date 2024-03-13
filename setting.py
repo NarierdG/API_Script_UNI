@@ -41,6 +41,7 @@ def translating_values_time():
     elif (combo_time.get() == "Прошлый день"): tim = "day"
     return tim
 
+
 # Сохранение введенных данных
 def clicked():
     if ((txt_email.get().find('@') != -1) and len(txt_email.get()) > 0 and (txt_email.get().find('.') != -1)):
@@ -62,6 +63,12 @@ def clicked():
                     "Pass": txt_pass.get(),
                     "Way": way,
                     "Wsl": wsl
+                }
+                res_load = {
+                    "Combo": combo.get(),
+                    "Filter": combo_filter.get(),
+                    "Dop": combo_dop.get(),
+                    "Time": combo_time.get()
                 }
                 if (combo_devset.get() == "DevID"):
                     if (combo.get() == "Тревоги CSV"):
@@ -140,6 +147,8 @@ def clicked():
                     json.dump(res, f)
                 with open('authorization.pkl', 'w') as f:
                     json.dump(logpass, f)
+                with open('additional_load.pkl', 'w') as f:
+                    json.dump(res_load, f)
                 messagebox.showinfo('', 'Настройки успешно сохранены!')
             else: messagebox.showwarning('', 'Не введен DevID/SetID!')
         else: messagebox.showwarning('', 'Не введен пароль!')
@@ -205,6 +214,8 @@ try:
         logpass = json.load(f)
     with open('settings.pkl', 'r') as f:
         res = json.load(f)
+    with open('additional_load.pkl', 'r') as f:
+        res_load = json.load(f)
 except: log = 0
 window.title("Настройка отчета Unimon!")
 lbl_email = Label(window, text="Введите E-mail:")
@@ -237,10 +248,6 @@ lbl_devset = Label(window, text=" = ")
 lbl_devset.grid(column=2, row=5)
 txt_devset = Entry(window,width=6)
 txt_devset.grid(column=3, row=5)
-try:
-    if (log != 0): txt_devset.insert(0, (res["SetID"]))
-except:
-    if (log != 0): txt_devset.insert(0, (res["DevID"]))
 lbl_combo = Label(window, text="Выберите формат:")
 lbl_combo.grid(column=0, row=6, sticky='w')
 combo = Combobox(window, width=37)
@@ -263,13 +270,37 @@ lbl_way = Label(window, text='*Путь для скаченного файла: 
 lbl_way.grid(column=0, row=11, sticky="w")
 txt_way = Entry(window,width=40)
 txt_way.grid(column=1, row=11)
+if (log != 0):
+    if (logpass["Wsl"] == 0):
+        combo_WSlocal.set("Облачный")
+    else:
+        combo_WSlocal.set("Локальный")
+        wsl = os.path.normpath(logpass["Wsl"])
+        txt_WSlocal.insert(0, wsl)
+if (log != 0):
+    if ("DevID") in res:
+        txt_devset.insert(0, (res["DevID"]))
+        combo_devset.current(0)
+        combo.set(res_load["Combo"])
+        combo_filter.set(res_load["Filter"])
+        if (res_load["Filter"] != "Тревоги CSV" and res_load["Filter"] != "Тревоги HTML" and res_load["Filter"] != "Тревоги PDF"): combo_dop.set(res_load["Dop"])
+        combo_time.set(res_load["Time"])
+    elif ("SetID") in res:
+        txt_devset.insert(0, (res["SetID"]))
+        combo_devset.current(1)
+        combo.set(res_load["Combo"])
+        combo_dop.set(res_load["Dop"])
+        combo_time.set(res_load["Time"])
 if (log != 0 and logpass["Way"] != 0):
     way = os.path.normpath(logpass["Way"])
-    txt_way.insert(0, logpass["Way"])
+    txt_way.insert(0, way)
 lbl_btn1 = Label(window, text="")
 lbl_btn1.grid(column=0, row=13)
 btn = Button(window, text="Сохранить!", command=clicked)
 btn.grid(column=1, row=15)
 lbl_way_p = Label(window, text='*Пример - C:\\Users\\****\\Папка для отчета')
 lbl_way_p.place(x = 0, y = 270)
+if (log != 0):
+    lbl_way_d = Label(window, text='*Для догрузки настроек нажмите еще раз на выбранный параметр DevID\\SetID')
+    lbl_way_d.place(x = 0, y = 250)
 window.mainloop()
