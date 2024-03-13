@@ -81,6 +81,8 @@ def main():
                 file_path ='Отчет ' + str(datetime.now().date()) + '.' + f_s["Format"]
                 with open(file_path, 'wb') as f:
                     f.write(r.content)
+                print("Не введен путь сохранения файла!")
+                time.sleep(1)
                 lbl_write = "4. Отчет загружен в корневую папку скрипта"
 
             print(lbl_write)

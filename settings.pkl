@@ -1,0 +1,1 @@
+{"Kind": "main", "Format": "pdf", "TimeZone": "device", "Group": "3h", "Ease": "no", "Filter": "custom_types", "DevID": "7514", "Types": "temp,hum", "T1": "week", "T2": ""}
