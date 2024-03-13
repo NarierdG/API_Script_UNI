@@ -1,3 +1,1 @@
-200 - код авторизации
-200 - код получения ссылки
-https://s3.unimon.ru/gen-reports/11438/1710336317/sbtKg/route_report.pdf?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=332678769a810f98b4b176c1%2F20240313%2Fru-1a%2Fs3%2Faws4_request&X-Amz-Date=20240313T132518Z&X-Amz-SignedHeaders=host&X-Amz-Expires=1800&X-Amz-Signature=3c34d9c9ec82b85b34b3ab904c6aef754b4fa3225cd63ac76c5d46436d25f587 - прямая ссылка на отчет
+
