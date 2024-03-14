@@ -21,6 +21,8 @@ def main():
         if (f_o["Wsl"] != 0):
             login_url = f_o["Wsl"] + "v1/user/login"
 
+        print(login_url)
+
         login_data = {
             "Email": f_o["Email"],
             "Pass": f_o["Pass"],
@@ -40,7 +42,7 @@ def main():
                 "Pass": f_o["Pass"],
                 "Token": login_response.text.strip()
             }
-            with open('token.pkl', 'w') as f:
+            with open(path + 'token.pkl', 'w') as f:
                 json.dump(token, f)
 
         print("2. Авторизация прошла успешно")
@@ -94,7 +96,7 @@ def main():
                 lbl_write = "4. Отчет загружен"
             else:
                 r = requests.get(export_response.json()['url'])
-                file_path = 'Report ' + id + timeDS + '.' + f_s["Format"]
+                file_path = path + 'Report ' + id + timeDS + '.' + f_s["Format"]
                 with open(file_path, 'wb') as f:
                     f.write(r.content)
                 print("Не введен путь сохранения файла!")
@@ -135,16 +137,27 @@ def main():
         print("Ошибка: инспектирование в log.txt!")
         time.sleep(3)
 
+    if not autoclose:
+        input("Нажмите Enter для завершения программы...")
+
 if __name__ == "__main__":
-    f_l = open("log.txt", "w")
+    path = os.path.realpath('main.exe')
+    path = path.replace('main.exe', '')
+
+    f_l = open((path + "log.txt"), "w")
+
+    if "-autoclose" in sys.argv:
+        autoclose = True
+    else:
+        autoclose = False
 
     # Занесение параметров из paramerts.txt
     try:
-        with open('authorization.pkl') as f:
+        with open(path + 'authorization.pkl') as f:
             f = f.read()
         f_o = json.loads(f)
 
-        with open('settings.pkl') as f:
+        with open(path + 'settings.pkl') as f:
             f = f.read()
         f_s = json.loads(f)
     except:
@@ -155,7 +168,7 @@ if __name__ == "__main__":
 
     id_token = 0
     try:
-        with open('token.pkl') as f:
+        with open(path + 'token.pkl') as f:
             f = f.read()
         f_t = json.loads(f)
         if (f_t["Email"] == f_o["Email"] and f_t["Pass"] == f_o["Pass"] and f_t["Token"] != ""): id_token = 1

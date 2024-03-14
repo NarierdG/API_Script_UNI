@@ -1,0 +1,1 @@
+{"Email": "test35@unimon.ru", "Pass": "12345", "Way": 0, "Wsl": 0}

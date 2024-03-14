@@ -252,6 +252,10 @@ combo_devset['state'] = 'readonly'
 combo_devset.bind("<<ComboboxSelected>>", on_combobox_change)
 lbl_devset = Label(window, text=" = ")
 txt_devset = Entry(window,width=6)
+if (log == 0):
+    devsetr = 64
+    lbl_devset.place(x=350, y=devsetr)
+    txt_devset.place(x=375, y=devsetr)
 lbl_combo = Label(window, text=" Выберите формат:")
 lbl_combo.grid(column=0, row=6, sticky='w')
 combo = Combobox(window, width=37)
