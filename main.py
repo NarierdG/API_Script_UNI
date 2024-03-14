@@ -12,6 +12,8 @@ def main():
     print("1. Данные для входа направлены")
     time.sleep(1)
 
+    sta_code1 = 0
+
     if (id_token == 0):
         # Отправляем запрос на авторизацию
         login_url = "https://api.unimon.ru/v1/user/login"
@@ -27,7 +29,7 @@ def main():
         }
         login_headers = {"Content-Type": "application/json"}
         login_response = requests.post(login_url, json=login_data, headers=login_headers)
-        if (login_response.status_code == 200): sta_code1 = 200
+        sta_code1 = login_response
     elif (id_token == 1): sta_code1 = 200
 
     if (sta_code1 == 200):
