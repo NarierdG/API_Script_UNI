@@ -63,8 +63,7 @@ def main():
 
         export_headers = {
             "Authorization": base64.b64encode(login_token.encode()).decode(),
-            "Content-Type": "application/json",
-            "Origin": "https://my.unimon.ru"
+            "Content-Type": "application/json"
         }
 
         export_response = requests.get(export_url, params=f_s, headers=export_headers)

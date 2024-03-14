@@ -13,8 +13,8 @@ def translating_values_format():
 
 def translating_values_kind():
     if (combo.get() == "Основной PDF" or combo.get() == "Основной HTML"): kind = "main"
-    elif (combo.get() == "Показатели CSV" or combo.get() == "Показатели HTML" or combo.get() == "Показатели PDF" or combo.get() == "Журнал ТиВ PDF"): kind = "alert"
-    elif (combo.get() == "Тревоги CSV" or combo.get() == "Тревоги HTML" or combo.get() == "Тревоги PDF"): kind = "values"
+    elif (combo.get() == "Показатели CSV" or combo.get() == "Показатели HTML" or combo.get() == "Показатели PDF" or combo.get() == "Журнал ТиВ PDF"): kind = "values"
+    elif (combo.get() == "Тревоги CSV" or combo.get() == "Тревоги HTML" or combo.get() == "Тревоги PDF"): kind = "alerts"
     return kind
 
 def translating_values_group():
