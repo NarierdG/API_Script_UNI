@@ -29,7 +29,7 @@ def main():
         }
         login_headers = {"Content-Type": "application/json"}
         login_response = requests.post(login_url, json=login_data, headers=login_headers)
-        sta_code1 = login_response
+        sta_code1 = login_response.status_code
     elif (id_token == 1): sta_code1 = 200
 
     if (sta_code1 == 200):
