@@ -141,11 +141,6 @@ if __name__ == "__main__":
 
     f_l = open((path + "log.txt"), "w")
 
-    if "-autoclose" or "autoclose" in sys.argv:
-        autoclose = True
-    else:
-        autoclose = False
-
     # Занесение параметров из paramerts.txt
     try:
         with open(path + 'authorization.pkl') as f:
@@ -157,8 +152,6 @@ if __name__ == "__main__":
         f_s = json.loads(f)
     except:
         print("Ошибка: данные аунтифекации не заполнены!")
-        if not autoclose:
-            input("Нажмите Enter для завершения программы...")
         f_l.write("Перед началом работы необходимо зайти в \"Параметры отчета\"!\n")
         time.sleep(3)
         sys.exit()
@@ -195,5 +188,3 @@ if __name__ == "__main__":
     else: id = "S-" + f_s["SetID"]
 
     main()
-    if not autoclose:
-        input("Нажмите Enter для завершения программы...")
