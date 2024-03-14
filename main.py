@@ -21,8 +21,6 @@ def main():
         if (f_o["Wsl"] != 0):
             login_url = f_o["Wsl"] + "v1/user/login"
 
-        print(login_url)
-
         login_data = {
             "Email": f_o["Email"],
             "Pass": f_o["Pass"],
@@ -146,7 +144,7 @@ if __name__ == "__main__":
 
     f_l = open((path + "log.txt"), "w")
 
-    if "-autoclose" in sys.argv:
+    if "-autoclose" or "autoclose" in sys.argv:
         autoclose = True
     else:
         autoclose = False
