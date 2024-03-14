@@ -135,9 +135,6 @@ def main():
         print("Ошибка: инспектирование в log.txt!")
         time.sleep(3)
 
-    if not autoclose:
-        input("Нажмите Enter для завершения программы...")
-
 if __name__ == "__main__":
     path = os.path.realpath('main.exe')
     path = path.replace('main.exe', '')
@@ -160,6 +157,8 @@ if __name__ == "__main__":
         f_s = json.loads(f)
     except:
         print("Ошибка: данные аунтифекации не заполнены!")
+        if not autoclose:
+            input("Нажмите Enter для завершения программы...")
         f_l.write("Перед началом работы необходимо зайти в \"Параметры отчета\"!\n")
         time.sleep(3)
         sys.exit()
@@ -196,3 +195,5 @@ if __name__ == "__main__":
     else: id = "S-" + f_s["SetID"]
 
     main()
+    if not autoclose:
+        input("Нажмите Enter для завершения программы...")
