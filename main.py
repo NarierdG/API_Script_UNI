@@ -56,10 +56,10 @@ def main():
             login_token = f_t["Token"]
 
         # Формируем запрос на получение файла с использованием токена авторизации
-        export_url = "https://api.unimon.ru/v1/export/main/tofile"
+        export_url = "https://api.unimon.ru/v1/export/" + f_o["Url"] + "/tofile"
 
         if (f_o["Wsl"] != 0):
-            export_url = f_o["Wsl"] + "v1/export/main/tofile"
+            export_url = f_o["Wsl"] + "v1/export/" + f_o["Url"] + "/tofile"
 
         export_headers = {
             "Authorization": base64.b64encode(login_token.encode()).decode(),

@@ -17,6 +17,12 @@ def translating_values_kind():
     elif (combo.get() == "Тревоги CSV" or combo.get() == "Тревоги HTML" or combo.get() == "Тревоги PDF"): kind = "alerts"
     return kind
 
+def translating_values_url():
+    if (combo.get() == "Основной PDF" or combo.get() == "Основной HTML"): url = "main"
+    elif (combo.get() == "Показатели CSV" or combo.get() == "Показатели HTML" or combo.get() == "Показатели PDF" or combo.get() == "Журнал ТиВ PDF"): url = "data"
+    elif (combo.get() == "Тревоги CSV" or combo.get() == "Тревоги HTML" or combo.get() == "Тревоги PDF"): url = "alerts"
+    return url
+
 def translating_values_group():
     if (combo_dop.get() == "Без усреднения"): grou = "no"
     elif (combo_dop.get() == "5 минут"): grou = "5m"
@@ -50,6 +56,7 @@ def clicked():
                 form = translating_values_format()
                 kind = translating_values_kind()
                 grou = translating_values_group()
+                url = translating_values_url()
                 if (combo_devset.get() == "DevID"): typ = translating_values_types()
                 tim = translating_values_time()
                 way = 0
@@ -62,7 +69,8 @@ def clicked():
                     "Email": txt_email.get(),
                     "Pass": txt_pass.get(),
                     "Way": way,
-                    "Wsl": wsl
+                    "Wsl": wsl,
+                    "Url": url
                 }
                 res_load = {
                     "Combo": combo.get(),
