@@ -134,6 +134,7 @@ def main():
         print("Ошибка: инспектирование в log.txt!")
         time.sleep(3)
 
+
 if __name__ == "__main__":
     path = os.path.realpath('main.exe')
     path = path.replace('main.exe', '')
