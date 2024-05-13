@@ -24,13 +24,13 @@ def status_ok(export_response):
     if (f_o["Way"] != 0 and os.path.exists(f_o["Way"])):
         r = requests.get(export_response.json()['url'])
         way = os.path.normpath(f_o["Way"])
-        file_path = f"{way}/Report{id}{timeDS}.{f_s['Format']}"
+        file_path = way + "/Report" + str(id) + timeDS + "_" + f_s['Format']
         with open(file_path, 'wb') as f:
             f.write(r.content)
         lbl_write = "4. Отчет загружен"
     else:
         r = requests.get(export_response.json()['url'])
-        file_path = f"{path}/Report{id}{timeDS}.{f_s['Format']}"
+        file_path = path + "/Report" + str(id) + timeDS + "_" + f_s['Format']
         with open(file_path, 'wb') as f:
             f.write(r.content)
         print("Не введен путь сохранения файла!")
